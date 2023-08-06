@@ -1,0 +1,30 @@
+---
+import CardService from "./CardService.astro";
+import services from "../mock/services.json"
+---
+
+<section class="services">
+    <h3 class="subtitle">Welcome to Vibes</h3>
+    <h2 class="title">what do we offer for you?</h2>
+
+    <div class="contain">
+        {services.map((service)=>(
+        <CardService title={service.title} ico={service.icon} description={service.description} />
+        ))}
+        
+        
+    </div>
+</section>
+
+<style>
+    .services{
+        padding: 2em 0;
+    }
+
+    .services .contain{
+        margin: 2em auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1em;
+    }
+</style>

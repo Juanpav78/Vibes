@@ -1,0 +1,52 @@
+---
+import logo from '../img/logoVibes_green.svg'
+---
+
+<header class="header">
+    <div class="contain">
+        <div class="logo">
+            <img class="logo__img" src={logo} alt="Logotype Vibes">
+        </div>
+
+        <nav class="nav">
+            <a class="nav__link" href="/">Home</a>
+            <a class="nav__link" href="/about">About</a>
+            <a class="nav__link" href="/blog">Blog</a>
+            <a class="nav__link" href="/find">Find Us</a>
+        </nav>
+    </div>
+</header>
+
+<style>
+    .header{
+        background: var(--color-white);
+    }
+    .header .contain{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .logo{
+        width: 6.2em;
+    }
+    .logo .logo__img{
+        width: 100%;
+    }
+    .nav{
+        display: flex;
+        align-items: center;
+        gap: 2em;
+    }
+    .nav .nav__link{
+        color: var(--color-dark);
+    }
+    .nav .nav__link:hover{
+        color: var(--color-primary);
+    }
+    @media (max-width: 48em) {
+        .header .contain{
+            flex-direction: column;
+        }
+    }
+
+</style>

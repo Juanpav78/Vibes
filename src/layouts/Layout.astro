@@ -5,6 +5,8 @@ interface Props {
 }
 
 const { title } = Astro.props;
+
+import Header from '../components/Header.astro';
 ---
 
 <!DOCTYPE html>
@@ -13,29 +15,102 @@ const { title } = Astro.props;
 		<meta charset="UTF-8" />
 		<meta name="description" content="Astro description">
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href="/logoVibes_green.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Vibes - {title}</title>
 		<meta name="description" content="descriptions" />
+
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.2/css/all.css" crossorigin="anonymous">
 	</head>
 	<body>
+		<Header/>
 		<slot />
 	</body>
 </html>
 <style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), rgb(var(--accent-light)) 30%, white 60%);
+	@import url('https://necolas.github.io/normalize.css/8.0.1/normalize.css');
+	@import url('https://fonts.googleapis.com/css2?family=Livvic:wght@700;900&family=Questrial&display=swap');
+	:root{
+		--color-primary 	: 		#3B5A26;
+		--color-secondary 	: 		#DE8430;
+		--color-dark 		: 		#243816;
+		--color-shader-w	: 		#FBFBFB;
+		--color-shader-g 	: 		#D9D9D9;
+		--color-white 		: 		#FFFFFF;
+
+		--font-title : 'Livvic', sans-serif;
+		--font-text  : 'Questrial', sans-serif;
 	}
-	html {
-		font-family: system-ui, sans-serif;
-		background: #13151A;
-		background-size: 224px;
+
+	body{
+		
 	}
-	code {
-		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-			Bitstream Vera Sans Mono, Courier New, monospace;
+
+	h1,h2,h3,h4{
+		font-family: var(--font-title);
+		
+	}
+
+	a, p, button, form{
+		font-family: var(--font-text);
+		text-decoration: none;
+	}
+
+	.contain{
+		max-width: 75em;
+		padding: .5em;
+		margin: 0 auto;
+	}
+
+	.title{
+		background:url(../img/ImagenFondoVibes2.jpg) ;
+		text-shadow: 0 0 0 rgba(0, 0, 0, 0.1);
+        text-transform: uppercase;
+        background-size:200%;
+		background-position: center right;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+		font-size: 2.6em;
+		width: fit-content;
+		margin: 0 auto;
+	}
+	.subtitle{
+		font-family: var(--font-text);
+		font-weight: 400;
+		font-size: 1.4em;
+		color: var(--color-primary);
+		opacity: .72;
+		margin-bottom: 0;
+	}
+
+	.title, .subtitle{
+		text-align: center;
+	}
+
+	.boton{
+		display: inline-block;
+		color: var(--color-white);
+		text-align: center;
+		text-transform: capitalize;
+		font-size: 1.2em;
+		padding: 1em;
+
+	} 
+	.boton--fill{
+		background: var(--color-primary);
+
+	}
+	.boton--empty{
+		border: 2px solid var(--color-white);
 	}
 </style>
+<!-- <script>
+    import bgText from "../img/ImagenFondoVibes2.jpg"
+
+    const titles = document.querySelectorAll(".title");
+
+	for(let i = 0; i< titles.length; i++){
+		titles[i].style.backgroundImage = `url(${bgText})`;
+	}
+   
+</script> -->

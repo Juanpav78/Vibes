@@ -1,0 +1,92 @@
+---
+import bgText from "../img/ImagenFondoVibes2.jpg"
+
+
+
+---
+
+<section class="home">
+
+    <div class="home__bg">
+        <div class="home__bg__info"></div>
+        <div class="home__bg__img">
+            <img src={bgText} alt="">
+        </div>
+    </div>
+    <div class="contain">
+        <div class=" home__info">
+            <h1 class="home__title title">Plants & life</h1>
+            <p class="home__description">The best company for your home</p>
+    
+            <a class="boton boton--fill" href="">Shop now</a>
+        </div>
+    </div>
+
+</section>
+
+<style>
+    .home{
+        background-color: var(--color-shader-w);
+        height: calc(100vh - 119.02px);
+        overflow: hidden;
+    }
+    .home .home__bg{
+        display: flex;
+        height: 100%;
+    }
+    .home .home__bg .home__bg__info{
+        flex: 2;
+    }
+    .home .home__bg .home__bg__img{
+        flex: 1;
+        overflow: hidden;
+    }
+    .home .home__bg .home__bg__img img{
+    width: 120%;
+    height: 120%;
+    }
+
+    .contain{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin-top:8em;
+    }
+    .home .home__info{
+        width: 50%;
+    }
+    .home .home__title{
+       
+        font-size: 8.2em;
+        text-align: start;
+        margin-top: 1em;
+        margin-bottom: 0;
+    }
+    .home .home__description{
+        font-size: 2.4em;
+        color: var(--color-dark);
+    }
+
+    @media (max-width: 75em) {
+        .home .home__info{
+        width: auto;
+        }
+        .home .home__bg__img{
+            display: none;
+        }
+    }
+    @media (max-width: 48em) {
+        .home .home__info{
+        width: auto;
+        }
+        .home .home__bg__img{
+            display: none;
+        }
+        .home .home__title{
+            font-size: 6em;
+        }
+    }
+</style>
+

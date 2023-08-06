@@ -1,0 +1,19 @@
+
+[    {
+        "title" : "Fresh",
+        "description": "Etiam in nibh euismod, molestie nulla quis, interdum ante. Ut convallis a magna non venenatis.",
+        "icon": "fa-solid fa-leaf"
+    },{
+        "title" : "Delivery",
+        "description": "Morbi elementum dolor in fringilla feugiat. Nam lacinia mi vitae risus accumsan ultrices.",
+        "icon": "fa-solid fa-truck"
+    },{
+        "title" : "Physical store",
+        "description": "Etiam in nibh euismod, molestie nulla quis, interdum ante. Ut convallis a magna non venenatis.",
+        "icon": "fa-solid fa-shop"
+    },{
+        "title" : "At a touch",
+        "description": "Integer ut volutpat lorem, sit amet condimentum ipsum. Cras volutpat diam in lorem condimentum consequat.",
+        "icon": "fa-solid fa-hand-pointer"
+    }
+]

@@ -10,6 +10,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "astro": "^2.10.1"
   }
 }

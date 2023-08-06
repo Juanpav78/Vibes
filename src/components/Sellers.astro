@@ -1,0 +1,52 @@
+---
+import CardPlant from "./CardPlant.astro";
+---
+
+<section class="sellers">
+    <h3 class="subtitle">the best partners</h3>
+    <h2 class="title">Our best sellers</h2>
+    <div class="sellers_bg">
+        <div class="contain">
+            <CardPlant />
+            <CardPlant />
+            <CardPlant />
+            
+        </div>
+        <a href="#" class="boton boton--empty">Show all</a>
+    </div>
+
+</section>
+
+<style>
+    .sellers{
+        padding: 2em 0;
+    }
+
+    .sellers .sellers_bg{
+        background: url(../img/ImagenFondoVibes3.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2em 0;
+        margin: 2em auto;
+    }
+
+    .sellers .contain{
+        
+       
+        display: grid;
+        width: -webkit-fill-available;
+        justify-items: center;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1em;
+    }
+
+    .sellers .boton{
+        padding: 1em 1.5em;
+        margin: .5em 0;
+        box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.8);
+    }
+</style>

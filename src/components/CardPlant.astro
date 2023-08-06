@@ -1,0 +1,60 @@
+---
+import image from "../img/plantaCard.jpg"
+---
+
+<div class="card">
+    <div class="card__contain--img">
+        <img class="card__img" src={image} alt="planta venta seller">
+    </div>
+    <div class="card__contain--info">
+        <h4 class="card__title">Plants Vibes</h4>
+        <p class="card__price">25$</p>
+    </div>
+    </div>
+    
+
+<style>
+    .card{
+        width: 20em;
+        background-color: var(--color-white);
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 1);
+    }
+    .card .card__contain--img{
+        width: 100%;
+        overflow: hidden;
+    }
+    .card .card__contain--info{
+        padding: 0em 1em;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.6em;
+    }
+    .card .card__img{
+        width: 100%;
+        aspect-ratio: 5 / 4;
+        border-radius: 8px;
+    }
+    .card .card__title,
+    .card .card__price{
+        color: var(--color-primary);
+    }
+    .card .card__title{
+
+    }
+    .card .card__price{
+        font-size: 1.2em;
+        font-weight: 900;
+    }
+
+    .card:hover .card__title,
+    .card:hover .card__price
+    {
+        color: var(--color-white);
+    }
+    .card:hover {
+        background-color: var(--color-primary);
+    }
+</style>
