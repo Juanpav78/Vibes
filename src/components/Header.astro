@@ -1,5 +1,7 @@
 ---
 import logo from '../img/logoVibes_green.svg'
+
+const pathname = Astro.url.pathname;
 ---
 
 <header class="header">
@@ -9,10 +11,10 @@ import logo from '../img/logoVibes_green.svg'
         </div>
 
         <nav class="nav">
-            <a class="nav__link" href="/">Home</a>
-            <a class="nav__link" href="/about">About</a>
-            <a class="nav__link" href="/blog">Blog</a>
-            <a class="nav__link" href="/find">Find Us</a>
+            <a class=`nav__link ${pathname === "/"      ? "active" : ""}`  href="/">Home</a>
+            <a class=`nav__link ${pathname === "/about" ? "active" : ""}`  href="/about">About</a>
+            <a class=`nav__link ${pathname === "/blog"  ? "active" : ""}`  href="/blog">Blog</a>
+            <a class=`nav__link ${pathname === "/find"  ? "active" : ""}`  href="/find">Find Us</a>
         </nav>
     </div>
 </header>
@@ -40,6 +42,11 @@ import logo from '../img/logoVibes_green.svg'
     .nav .nav__link{
         color: var(--color-dark);
     }
+
+    .nav .nav__link.active{
+        border-bottom: 4px solid var(--color-primary);
+    }
+
     .nav .nav__link:hover{
         color: var(--color-primary);
     }

@@ -1,12 +1,40 @@
 ---
-
+import Carrousel from "./Carrousel.astro";
 ---
 
 <section class="blog">
     <h3 class="subtitle">Testimonials from our</h3>
     <h2 class="title">blog</h2>
-
+    <Carrousel num={3}>
+        <div class="prueba">
+            <p>ajsoaj</p>
+            <p>ajsoaj</p>
+            <p>ajsoaj</p>
+            <p>ajsoaj</p>
+            <p>ajsoaj</p>
+            <p>ajsoaj</p>
+            <p>ajsoaj</p>
+            <p>ajsoaj</p>
+            <p>ajsoaj</p>
+            <p>ajsoaj</p>
+            <p>ajsoaj</p>
+        </div>
+        <div class="prueba">
+            <p>ajsoaj</p>
+        </div>
+        <div class="prueba">
+            <p>ajsoaj</p>
+        </div>
+    </Carrousel>
 </section>
 <style>
-
+    .prueba:nth-child(1){
+        background-color: rgb(199, 115, 154);
+    }
+    .prueba:nth-child(2){
+        background-color: rgb(89, 134, 93);
+    }
+    .prueba:nth-child(3){
+        background-color: rgb(148, 226, 216);
+    }
 </style>

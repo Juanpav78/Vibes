@@ -7,6 +7,7 @@ interface Props {
 const { title } = Astro.props;
 
 import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 ---
 
 <!DOCTYPE html>
@@ -23,8 +24,9 @@ import Header from '../components/Header.astro';
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.2/css/all.css" crossorigin="anonymous">
 	</head>
 	<body>
-		<Header/>
+		<Header />
 		<slot />
+		<Footer/>
 	</body>
 </html>
 <style is:global>
@@ -64,10 +66,10 @@ import Header from '../components/Header.astro';
 
 	.title{
 		background:url(../img/ImagenFondoVibes2.jpg) ;
-		text-shadow: 0 0 0 rgba(0, 0, 0, 0.1);
+		text-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
         text-transform: uppercase;
-        background-size:200%;
-		background-position: center right;
+        background-size:cover;
+		background-position: center;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
 		font-size: 2.6em;
