@@ -33,23 +33,26 @@ import CarrouselReact from './CarrouselReact';
     width: .6em;
     aspect-ratio: 1/1;
     border-radius: 50%;
-    background-color: black;
+    background-color: #3b5a2646;
+    transition: all .5s ease-in-out;
     }
 
     .carrousel .carrousel__dot.active::after{
-    transform: scale(1.5);
+    background-color: #3b5a26;
+    transform: scale(1.2);
     transform-origin: center;
-    transition: transform 2s ease-in;
+    transition: all .5s ease-in-out;
     }
     .carrousel__movil{
         display: grid;
         grid-template-columns: 1fr 4fr 1fr;
         grid-template-rows: 1fr;
-        grid-column-gap: 0px;
+        grid-column-gap: 1em;
         grid-row-gap: 0px;
 
         justify-items: center;
         align-items: center;
+
     }
 
     .carrousel__visible{
@@ -62,20 +65,35 @@ import CarrouselReact from './CarrouselReact';
         
         width: calc(100% * var(--num));
         display: flex;
-        background: blue;
         transition: .5s all;
     }
-    .carrousel .carrousel__content div  {
+    .carrousel .carrousel__content .carrousel__contain  {
         width: calc(100% / var(--num));
         
     }
     .carrousel .carrousel__arrow{
+        color: #3b5a2646;
         cursor: pointer;
+        font-size: 1.5em;
+        transition: all .3s ease-in-out;
+    }
+    .carrousel .carrousel__arrow:hover{
+        color: #3b5a26;
+        transition: all .3s ease-in-out;
     }
     .carrousel .carrousel__arrow--left{
         grid-area: 1 / 1 / 2 / 2;
+        justify-self: right;
     }
     .carrousel .carrousel__arrow--rigth{
         grid-area: 1 / 3 / 2 / 4;
+        justify-self: left;
+    }
+
+    @media (max-width: 48em) {
+        .carrousel__movil{
+            gap: 0;
+            padding: 0;
+        }
     }
 </style>

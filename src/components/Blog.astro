@@ -1,40 +1,144 @@
 ---
 import Carrousel from "./Carrousel.astro";
+import imgBlog from "../img/blog.jpg"
 ---
 
 <section class="blog">
     <h3 class="subtitle">Testimonials from our</h3>
     <h2 class="title">blog</h2>
     <Carrousel num={3}>
-        <div class="prueba">
-            <p>ajsoaj</p>
-            <p>ajsoaj</p>
-            <p>ajsoaj</p>
-            <p>ajsoaj</p>
-            <p>ajsoaj</p>
-            <p>ajsoaj</p>
-            <p>ajsoaj</p>
-            <p>ajsoaj</p>
-            <p>ajsoaj</p>
-            <p>ajsoaj</p>
+        <div class="carrousel__contain">
+            <div class="blog__content">
+                <div class="blog--card">
+                    <div class="blog--card__card">
+                        <img class="blog--card__img" src={imgBlog} alt="">
+                        <a class="blog--card__btn boton boton--fill" href="#">Read Now</a>
+                    </div>
+                </div>
+                <div class="blog--info">
+                    <div class="blog--info__info">
+                        <h4 class="blog--info__title">How to care for plants</h4>
+                        <p class="blog--info__text">Fusce volutpat, mi vel vestibulum ornare, metus metus facilisis erat, et dignissim nulla erat viverra turpis. Ut ac odio interdum, ultricies nunc a, varius magna. </p>
+                        <p class="blog--info__text">Aenean maximus facilisis lectus, lobortis elementum felis efficitur quis. Vestibulum dignissim et enim quis efficitur. Integer 
+                            elementum mollis rutrum. </p>  
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carrousel__contain">
+            <div class="blog__content">
+                <div class="blog--card">
+                    <div class="blog--card__card">
+                        <img class="blog--card__img" src={imgBlog} alt="">
+                        <a class="blog--card__btn boton boton--fill" href="#">Read Now</a>
+                    </div>
+                </div>
+                <div class="blog--info">
+                    <div class="blog--info__info">
+                        <h4 class="blog--info__title">How to care for plants</h4>
+                        <p class="blog--info__text">Fusce volutpat, mi vel vestibulum ornare, metus metus facilisis erat, et dignissim nulla erat viverra turpis. Ut ac odio interdum, ultricies nunc a, varius magna. </p>
+                        <p class="blog--info__text">Aenean maximus facilisis lectus, lobortis elementum felis efficitur quis. Vestibulum dignissim et enim quis efficitur. Integer 
+                            elementum mollis rutrum. </p>  
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carrousel__contain">
+            <div class="blog__content">
+                <div class="blog--card">
+                    <div class="blog--card__card">
+                        <img class="blog--card__img" src={imgBlog} alt="">
+                        <a class="blog--card__btn boton boton--fill" href="#">Read Now</a>
+                    </div>
+                </div>
+                <div class="blog--info">
+                    <div class="blog--info__info">
+                        <h4 class="blog--info__title">How to care for plants</h4>
+                        <p class="blog--info__text">Fusce volutpat, mi vel vestibulum ornare, metus metus facilisis erat, et dignissim nulla erat viverra turpis. Ut ac odio interdum, ultricies nunc a, varius magna. </p>
+                        <p class="blog--info__text">Aenean maximus facilisis lectus, lobortis elementum felis efficitur quis. Vestibulum dignissim et enim quis efficitur. Integer 
+                            elementum mollis rutrum. </p>  
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </Carrousel>
+    <Carrousel num={5}>
+        <div class=" carrousel__contain ">
+            
+        </div>
+        <div class=" carrousel__contain ">
             <p>ajsoaj</p>
         </div>
-        <div class="prueba">
-            <p>ajsoaj</p>
-        </div>
-        <div class="prueba">
+        <div class=" carrousel__contain ">
             <p>ajsoaj</p>
         </div>
     </Carrousel>
 </section>
 <style>
-    .prueba:nth-child(1){
-        background-color: rgb(199, 115, 154);
+    .blog{
+        background-color: var(--color-shader-w);
     }
-    .prueba:nth-child(2){
-        background-color: rgb(89, 134, 93);
+
+    .blog__content{
+        margin-top: 2em;
+        display: flex;
     }
-    .prueba:nth-child(3){
-        background-color: rgb(148, 226, 216);
+
+    @media (max-width: 75em) {
+        .blog__content{
+            flex-direction: column-reverse;
+            align-items: center;
+        }
     }
+
+    .blog--card,
+    .blog--info
+    {
+        flex: 1;
+        padding: 1em;
+    }
+
+    .blog--card{
+    }
+    .blog--card .blog--card__card{
+        width: 100%;
+        max-width: 22em;
+        height: 22em;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+    }
+    .blog--card .blog--card__img{
+        height: 100%;
+        width: 100%;
+    }
+    .blog--card .blog--card__btn{
+        display: block;
+    }
+
+    .blog--info{
+
+    }
+    .blog--info .blog--info__info{
+        color: var(--color-primary);
+    }
+    .blog--info .blog--info__title{
+        margin-top: 0;
+        font-size: 1.7em;
+
+    }
+    .blog--info .blog--info__text{
+        font-size: 1.2em;
+    }
+
+    @media (max-width: 48em) {
+        .blog--info{
+            text-align: center;
+        }
+    }
+    
+    
 </style>
