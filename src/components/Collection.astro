@@ -1,12 +1,131 @@
 ---
-
+import img1 from "../img/planta-1.jpg";
+import img2 from "../img/planta-2.jpg";
+import img3 from "../img/planta-3.jpg";
+import img4 from "../img/planta-4.jpg";
+import img5 from "../img/planta-5.jpg";
 ---
 
-<section class="blog">
+<section class="collection">
     <h3 class="subtitle">Collection of</h3>
     <h2 class="title">indoor plants</h2>
 
+    <div class="contain collection__contain">
+        <div class="collection__img grid--1">
+            <img src={img1} alt="">
+            <p class="collection__name">hola mundo</p>
+        </div>
+        <div class="collection__img grid--2">
+            <img src={img5} alt="">
+            <p class="collection__name">hola mundo</p>
+        </div>
+        <div class="collection__img grid--3">
+            <img src={img3} alt="">
+            <p class="collection__name">hola mundo</p>
+        </div>
+        <div class="collection__img grid--4">
+            <img src={img4} alt="">
+            <p class="collection__name">hola mundo</p>
+        </div>
+        <div class="collection__img grid--5">
+            <img src={img2} alt="">
+            <p class="collection__name">hola mundo</p>
+        </div>
+    </div>
+
 </section>
 <style>
+        .collection__contain {
+            padding: 2em;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        grid-column-gap: 3em;
+        grid-row-gap: 3em;
+        }
+
+        .grid--1 { 
+            grid-area: 1 / 1 / 2 / 2; }
+        .grid--2 { 
+            grid-area: 1 / 2 / 2 / 3; }
+        .grid--3 { 
+            grid-area: 2 / 1 / 3 / 2; }
+        .grid--4 { 
+            grid-area: 2 / 2 / 3 / 3; }
+        .grid--5 { 
+            grid-area: 1 / 3 / 3 / 4; }
+
+        .grid--1,
+        .grid--2,
+        .grid--3,
+        .grid--4,
+        .grid--5
+        { 
+            box-shadow:inset 0px -25px 25px -20px #E3E3E3;
+            transition: all .3s ease-in-out;
+            cursor: pointer;
+        }
+        .grid--1:hover,
+        .grid--2:hover,
+        .grid--3:hover,
+        .grid--4:hover,
+        .grid--5:hover
+        { 
+            box-shadow:inset 0px -25px 25px -20px #3B5A26;
+            
+            transition: all .3s ease-in-out;
+        }
+
+        .grid--1 img,
+        .grid--2 img,
+        .grid--3 img,
+        .grid--4 img,
+        .grid--5 img
+        { 
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: -1;
+            aspect-ratio: 1 / 1;
+        }
+
+        .grid--5 img{
+            
+            aspect-ratio: 1 / 2;
+        }
+
+        .collection__name{
+            position: absolute;
+
+            margin-top: -1.8em;
+            margin-left: .5em;
+            display: block;
+            color: var(--color-primary);
+            
+        }
+        .grid--1:hover  .collection__name,
+        .grid--2:hover  .collection__name,
+        .grid--3:hover  .collection__name,
+        .grid--4:hover  .collection__name,
+        .grid--5:hover  .collection__name
+        { 
+           color: var(--color-dark);
+        }
+
+        @media (max-width: 48em) {
+            .collection__contain {
+                padding: 2em 0;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(3, 1fr);
+                gap: 4px;
+            }
+
+            .grid--1 { grid-area: 1 / 1 / 2 / 2; }
+            .grid--2 { grid-area: 2 / 1 / 3 / 2; }
+            .grid--3 { grid-area: 3 / 1 / 4 / 2; }
+            .grid--4 { grid-area: 3 / 2 / 4 / 3; }
+            .grid--5 { grid-area: 1 / 2 / 3 / 3; }
+    }
 
 </style>

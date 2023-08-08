@@ -1,12 +1,72 @@
 ---
-
+import Carrousel from "./Carrousel.astro";
 ---
 
 <section class="blog">
     <h3 class="subtitle">Testimonials from our</h3>
     <h2 class="title">satisfied Clients</h2>
-
+    <Carrousel num={4}>
+        <div class=" carrousel__contain ">
+            <blockquote class="testimonial">
+                <p class="testimonial__text">A pesar de los que muchos piensan, el libro no es autobiográfico, aunque podría encajar en la mayor parte de mi vida</p>
+                <div class="testimonial__person">
+                    <div class="testimonial__person__perfil">
+                        <img class="testimonial__person__img" src="" alt="">
+                    </div>
+                    <footer>- María Álvarez, autora del libro "Bla bla bla"</footer>
+                </div>
+            </blockquote>
+        </div>
+        <div class=" carrousel__contain ">
+            <blockquote class="testimonial">
+                <p class="testimonial__text">A pesar de los que muchos piensan, el libro no es autobiográfico, aunque podría encajar en la mayor parte de mi vida</p>
+                <div class="testimonial__person">
+                    <div class="testimonial__person__perfil">
+                        <img class="testimonial__person__img" src="" alt="">
+                    </div>
+                    <footer>- María Álvarez, autora del libro "Bla bla bla"</footer>
+                </div>
+            </blockquote>
+        </div>
+        <div class=" carrousel__contain ">
+            <blockquote class="testimonial">
+                <p class="testimonial__text">A pesar de los que muchos piensan, el libro no es autobiográfico, aunque podría encajar en la mayor parte de mi vida</p>
+                <div class="testimonial__person">
+                    <div class="testimonial__person__perfil">
+                        <img class="testimonial__person__img" src="" alt="">
+                    </div>
+                    <footer>- María Álvarez, autora del libro "Bla bla bla"</footer>
+                </div>
+            </blockquote>
+        </div>
+        <div class=" carrousel__contain ">
+            <blockquote class="testimonial">
+                <p class="testimonial__text">A pesar de los que muchos piensan, el libro no es autobiográfico, aunque podría encajar en la mayor parte de mi vida</p>
+                <div class="testimonial__person">
+                    <div class="testimonial__person__perfil">
+                        <img class="testimonial__person__img" src="" alt="">
+                    </div>
+                    <footer>- María Álvarez, autora del libro "Bla bla bla"</footer>
+                </div>
+            </blockquote>
+        </div>
+      
+    </Carrousel>
 </section>
 <style>
+    .testimonial{
 
+    }
+    .testimonial .testimonial__text{
+
+    }
+    .testimonial .testimonial__person{
+
+    }
+    .testimonial .testimonial__person__perfil{
+
+    }
+    .testimonial .testimonial__person__img{
+
+    }
 </style>
