@@ -1,0 +1,251 @@
+---
+import logo from '../img/logoVibes_white.svg';
+import Icon from './ui/Icon.astro';
+import { navLinks, socials, stores } from '../data/site';
+import { site } from '../data/config';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer" transition:animate="none">
+	<div class="footer__leaves" aria-hidden="true"></div>
+	<div class="contain footer__grid">
+		<div class="footer__brand">
+			<a href="/" class="footer__logo" aria-label="Vibes — home">
+				<img src={logo.src} alt="Vibes" width="100" height="100" loading="lazy" />
+			</a>
+			<p>{site.description}</p>
+			<ul class="footer__social" role="list">
+				{
+					socials.map((s) => (
+						<li>
+							<a href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.name}>
+								<Icon name={s.icon} size={20} />
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+
+		<nav class="footer__col" aria-label="Footer">
+			<h2>Explore</h2>
+			<ul role="list">
+				{navLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+			</ul>
+		</nav>
+
+		<div class="footer__col">
+			<h2>Stores</h2>
+			<ul role="list">
+				{stores.map((s) => <li><a href="/find#stores">{s.name}</a></li>)}
+			</ul>
+		</div>
+
+		<div class="footer__col">
+			<h2>Newsletter</h2>
+			<p>One email a month with care tips and new arrivals.</p>
+			<form class="newsletter" novalidate>
+				<label class="sr-only" for="newsletter-email">Email</label>
+				<input id="newsletter-email" type="email" name="email" placeholder="you@email.com" required autocomplete="email" />
+				<button type="submit" aria-label="Subscribe"><Icon name="send" size={18} /></button>
+			</form>
+			<p class="newsletter__msg" role="status" aria-live="polite"></p>
+			<p class="footer__contact">
+				<Icon name="mail" size={16} />
+				<a href={`mailto:${site.email}`}>{site.email}</a>
+			</p>
+			<p class="footer__contact">
+				<Icon name="phone" size={16} />
+				{site.phone}
+			</p>
+		</div>
+	</div>
+	<div class="contain footer__bottom">
+		<p>© {year} {site.name}. All rights reserved.</p>
+		<a href="#main" class="footer__top">Back to top ↑</a>
+	</div>
+</footer>
+
+<script>
+	// Sin backend: solo validamos y mostramos un mensaje.
+	document.addEventListener('submit', (e) => {
+		const form = e.target as HTMLFormElement;
+		if (!form.classList.contains('newsletter')) return;
+		e.preventDefault();
+		const input = form.querySelector('input')!;
+		const msg = form.nextElementSibling as HTMLElement;
+		const ok = input.checkValidity();
+		msg.textContent = ok ? 'Thanks! You are now part of the Vibes family 🌱' : 'Please enter a valid email.';
+		msg.classList.toggle('is-error', !ok);
+		form.classList.toggle('is-error', !ok);
+		if (ok) form.reset();
+	});
+</script>
+
+<style>
+	.footer {
+		position: relative;
+		overflow: hidden;
+		background: var(--color-dark);
+		color: rgba(255, 255, 255, 0.75);
+		padding-top: 4em;
+	}
+	.footer__leaves {
+		position: absolute;
+		inset: 0;
+		background: var(--texture) center / cover;
+		opacity: 0.07;
+		pointer-events: none;
+	}
+	.footer__grid {
+		position: relative;
+		display: grid;
+		grid-template-columns: 2fr 1fr 1fr 1.6fr;
+		gap: 2.5em;
+	}
+	.footer__logo {
+		display: inline-block;
+		width: 7.5em;
+	}
+	.footer__logo img {
+		width: 100%;
+		aspect-ratio: 2.6 / 1;
+		object-fit: cover;
+	}
+	.footer__brand p {
+		max-width: 26em;
+	}
+	.footer h2 {
+		margin: 0.4em 0 1em;
+		font-size: 1.2em;
+		color: var(--color-white);
+	}
+	.footer ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.footer__col li + li {
+		margin-top: 0.6em;
+	}
+	.footer__col a {
+		position: relative;
+		transition:
+			color 0.25s,
+			padding 0.3s var(--ease-out);
+	}
+	.footer__col a:hover {
+		color: var(--color-white);
+		padding-left: 0.4em;
+	}
+	.footer__social {
+		display: flex;
+		gap: 0.6em;
+	}
+	.footer__social a {
+		display: grid;
+		place-items: center;
+		width: 2.6rem;
+		height: 2.6rem;
+		border-radius: 50%;
+		border: 1px solid rgba(255, 255, 255, 0.25);
+		color: var(--color-white);
+		transition:
+			background-color 0.3s,
+			transform 0.4s var(--ease-spring),
+			color 0.3s;
+	}
+	.footer__social a:hover {
+		background: var(--color-white);
+		color: var(--color-primary);
+		transform: translateY(-4px);
+	}
+
+	.newsletter {
+		display: flex;
+		border-bottom: 2px solid rgba(255, 255, 255, 0.35);
+		transition: border-color 0.3s;
+	}
+	.newsletter:focus-within {
+		border-color: var(--color-white);
+	}
+	.newsletter.is-error {
+		border-color: var(--color-secondary);
+		animation: shake 0.4s;
+	}
+	.newsletter input {
+		flex: 1;
+		min-width: 0;
+		padding: 0.7em 0;
+		background: transparent;
+		border: 0;
+		color: var(--color-white);
+		outline: none;
+	}
+	.newsletter input::placeholder {
+		color: rgba(255, 255, 255, 0.5);
+	}
+	.newsletter button {
+		padding: 0 0.5em;
+		color: var(--color-white);
+		transition: transform 0.3s var(--ease-out);
+	}
+	.newsletter button:hover {
+		transform: translate(3px, -3px);
+	}
+	.newsletter__msg {
+		min-height: 1.5em;
+		font-size: 0.9em;
+		color: #b7d3a3;
+	}
+	.newsletter__msg.is-error {
+		color: var(--color-secondary);
+	}
+	@keyframes shake {
+		25% {
+			transform: translateX(-6px);
+		}
+		75% {
+			transform: translateX(6px);
+		}
+	}
+	.footer__contact {
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
+		margin: 0.4em 0;
+	}
+	.footer__contact a:hover {
+		color: var(--color-white);
+	}
+
+	.footer__bottom {
+		position: relative;
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 1em;
+		margin-top: 3em;
+		padding-block: 1.5em;
+		border-top: 1px solid rgba(255, 255, 255, 0.12);
+	}
+	.footer__bottom > * {
+		margin: 0;
+		font-size: 0.9em;
+	}
+	.footer__top:hover {
+		color: var(--color-white);
+	}
+
+	@media (max-width: 64em) {
+		.footer__grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	@media (max-width: 36em) {
+		.footer__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

@@ -1,0 +1,48 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/ui/Icon.astro';
+---
+
+<Layout title="Page not found">
+	<section class="not-found contain">
+		<span class="not-found__icon"><Icon name="leaf" size={64} /></span>
+		<h1 class="title">404</h1>
+		<p class="lead">This page went to get some sun. Let's take you back to the plants.</p>
+		<div class="not-found__actions">
+			<a class="boton boton--fill" href="/">Go home</a>
+			<a class="boton boton--outline" href="/catalog">See catalog</a>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.not-found {
+		min-height: 60vh;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		padding-block: 4em;
+	}
+	.not-found .title {
+		font-size: clamp(5em, 18vw, 10em);
+	}
+	.not-found__icon {
+		color: var(--color-primary);
+		animation: sway 3s ease-in-out infinite;
+		transform-origin: bottom center;
+	}
+	@keyframes sway {
+		50% {
+			transform: rotate(-12deg);
+		}
+	}
+	.not-found__actions {
+		display: flex;
+		gap: 1em;
+		flex-wrap: wrap;
+		justify-content: center;
+		margin-top: 2em;
+	}
+</style>

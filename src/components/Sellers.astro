@@ -1,50 +1,54 @@
 ---
-import CardPlant from "./CardPlant.astro";
+import { getImage } from 'astro:assets';
+import CardPlant from './CardPlant.astro';
+import { bestSellers } from '../data/plants';
+import bg from '../img/ImagenFondoVibes3.jpg';
+
+// Fondo: 2.8 MB jpg -> webp optimizado
+const bgImg = await getImage({ src: bg, width: 1920, format: 'webp', quality: 50 });
 ---
 
-<section class="sellers">
-    <h3 class="subtitle">the best partners</h3>
-    <h2 class="title">Our best sellers</h2>
-    <div class="sellers_bg">
-        <div class="contain">
-            <CardPlant />
-            <CardPlant />
-            <CardPlant />
-            
-        </div>
-        <a href="#" class="boton boton--empty">Show all</a>
-    </div>
-
+<section class="sellers section">
+	<p class="subtitle" data-reveal>the best partners</p>
+	<h2 class="title" data-reveal>Our best sellers</h2>
+	<div class="sellers_bg" style={`--bg: url(${bgImg.src})`}>
+		<div class="contain sellers__grid" data-reveal-stagger="120">
+			{bestSellers.map((plant) => <CardPlant plant={plant} />)}
+		</div>
+		<a href="/catalog" class="boton boton--empty" data-reveal>Show all</a>
+	</div>
 </section>
 
 <style>
-
-
-    .sellers .sellers_bg{
-        background: url(../img/ImagenFondoVibes3.jpg);
-        background-size: cover;
-        background-repeat: no-repeat;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 2em 0;
-        margin: 2em auto 0 auto;
-    }
-
-    .sellers .contain{
-        
-       
-        display: grid;
-        width: -webkit-fill-available;
-        justify-items: center;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 1em;
-    }
-
-    .sellers .boton{
-        padding: 1em 1.5em;
-        margin: .5em 0;
-        box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.8);
-    }
+	.sellers {
+		padding-bottom: 0;
+	}
+	.sellers .sellers_bg {
+		background: var(--bg) center / cover no-repeat fixed, var(--color-primary);
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.5em;
+		padding: 3em 0;
+		margin: 2em auto 0 auto;
+	}
+	/* background-attachment: fixed no funciona bien en móviles */
+	@media (hover: none), (max-width: 48em) {
+		.sellers .sellers_bg {
+			background-attachment: scroll;
+		}
+	}
+	.sellers__grid {
+		display: grid;
+		width: 100%;
+		justify-items: center;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 2em;
+	}
+	.sellers .boton {
+		padding: 1em 1.5em;
+		margin: 0.5em 0;
+		box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.8);
+	}
 </style>

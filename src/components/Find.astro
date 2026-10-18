@@ -1,12 +1,203 @@
 ---
+import Icon from './ui/Icon.astro';
+import { stores } from '../data/site';
 
+const embed = (lat: number, lng: number) =>
+	`https://www.openstreetmap.org/export/embed.html?bbox=${lng - 0.008}%2C${lat - 0.005}%2C${lng + 0.008}%2C${lat + 0.005}&layer=mapnik&marker=${lat}%2C${lng}`;
+const directions = (lat: number, lng: number) =>
+	`https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=17/${lat}/${lng}`;
+const first = stores[0];
 ---
 
-<section class="blog">
-    <h3 class="subtitle">find us in our</h3>
-    <h2 class="title">physical stores</h2>
+<section class="find section" id="stores">
+	<p class="subtitle" data-reveal>find us in our</p>
+	<h2 class="title" data-reveal>physical stores</h2>
+	<p class="lead" data-reveal>Come and meet our plants in person. Our team will help you choose the perfect one for your space.</p>
 
+	<div class="contain find__grid">
+		<ul class="find__list" data-reveal-stagger="120" role="list">
+			{
+				stores.map((store, i) => (
+					<li data-reveal="left">
+						<button
+							class:list={['store', { 'is-active': i === 0 }]}
+							data-map={embed(store.lat, store.lng)}
+							aria-pressed={i === 0 ? 'true' : 'false'}
+						>
+							<span class="store__pin">
+								<Icon name="map-pin" size={22} />
+							</span>
+							<span class="store__body">
+								<strong class="store__name">{store.name}</strong>
+								<span class="store__row">{store.address}</span>
+								<span class="store__row">
+									<Icon name="clock" size={16} /> {store.hours}
+								</span>
+								<span class="store__row">
+									<Icon name="phone" size={16} /> {store.phone}
+								</span>
+							</span>
+						</button>
+						<a class="store__dir" href={directions(store.lat, store.lng)} target="_blank" rel="noopener noreferrer">
+							Directions <Icon name="arrow-right" size={16} />
+						</a>
+					</li>
+				))
+			}
+		</ul>
+
+		<div class="find__map" data-reveal="right">
+			<iframe
+				title="Store location map"
+				src={embed(first.lat, first.lng)}
+				loading="lazy"
+				referrerpolicy="no-referrer-when-downgrade"></iframe>
+		</div>
+	</div>
 </section>
-<style>
 
+<script>
+	document.addEventListener('astro:page-load', () => {
+		const map = document.querySelector<HTMLIFrameElement>('.find__map iframe');
+		const buttons = document.querySelectorAll<HTMLButtonElement>('.store[data-map]');
+		buttons.forEach((btn) =>
+			btn.addEventListener('click', () => {
+				if (!map || btn.classList.contains('is-active')) return;
+				buttons.forEach((b) => {
+					b.classList.toggle('is-active', b === btn);
+					b.setAttribute('aria-pressed', String(b === btn));
+				});
+				map.classList.add('is-loading');
+				map.addEventListener('load', () => map.classList.remove('is-loading'), { once: true });
+				map.src = btn.dataset.map!;
+			}),
+		);
+	});
+</script>
+
+<style>
+	.find__grid {
+		display: grid;
+		grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+		gap: 2em;
+		margin-top: 2.5em;
+	}
+	.find__list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
+	}
+	.find__list li {
+		position: relative;
+	}
+	.store {
+		display: flex;
+		gap: 1em;
+		width: 100%;
+		padding: 1.2em;
+		padding-bottom: 2.6em;
+		text-align: left;
+		border-radius: var(--radius);
+		border: 1px solid var(--color-shader-g);
+		background: var(--color-white);
+		transition:
+			border-color 0.3s,
+			box-shadow 0.3s,
+			transform 0.35s var(--ease-out);
+	}
+	.store:hover {
+		transform: translateX(4px);
+		box-shadow: var(--shadow-md);
+	}
+	.store.is-active {
+		border-color: var(--color-primary);
+		box-shadow: inset 4px 0 0 var(--color-primary), var(--shadow-sm);
+	}
+	.store__pin {
+		flex-shrink: 0;
+		display: grid;
+		place-items: center;
+		width: 2.8rem;
+		height: 2.8rem;
+		border-radius: 50%;
+		background: var(--color-mint);
+		color: var(--color-primary);
+		transition:
+			background-color 0.3s,
+			color 0.3s;
+	}
+	.store.is-active .store__pin {
+		background: var(--color-primary);
+		color: var(--color-white);
+		animation: bounce 0.6s var(--ease-spring);
+	}
+	@keyframes bounce {
+		40% {
+			transform: translateY(-6px);
+		}
+	}
+	.store__body {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25em;
+		color: var(--color-muted);
+	}
+	.store__name {
+		font-family: var(--font-title);
+		font-size: 1.25em;
+		color: var(--color-primary);
+	}
+	.store__row {
+		display: flex;
+		align-items: center;
+		gap: 0.4em;
+	}
+	.store__dir {
+		position: absolute;
+		left: 4.95em;
+		bottom: 1em;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3em;
+		font-size: 0.9em;
+		color: var(--color-secondary);
+	}
+	.store__dir:hover {
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	.find__map {
+		min-height: 24rem;
+		border-radius: var(--radius);
+		overflow: hidden;
+		box-shadow: var(--shadow-md);
+		background: var(--color-mint);
+	}
+	.find__map iframe {
+		width: 100%;
+		height: 100%;
+		min-height: 24rem;
+		border: 0;
+		transition:
+			opacity 0.4s,
+			filter 0.4s;
+	}
+	.find__map iframe.is-loading {
+		opacity: 0.3;
+		filter: blur(4px);
+	}
+
+	@media (max-width: 48em) {
+		.find__grid {
+			grid-template-columns: 1fr;
+		}
+		.find__map,
+		.find__map iframe {
+			min-height: 18rem;
+		}
+	}
 </style>

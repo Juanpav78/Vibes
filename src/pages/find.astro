@@ -1,13 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Find from '../components/Find.astro';
+import Social from '../components/Social.astro';
 ---
 
-<Layout title="About Us" description="Pagina de plantas construida con react y astro, diseño ux/ui">
-	<main>
-		<h1>Nosotros</h1>
-	</main>
+<Layout title="Find Us" description="Visit our Vibes plant stores: addresses, opening hours, map and social networks.">
+	<PageHero subtitle="Come and visit" title="Find us" text="Three stores full of plants, pots and people who love helping you take care of them." />
+	<Find />
+	<Social />
 </Layout>
-
-<style>
-	
-</style>

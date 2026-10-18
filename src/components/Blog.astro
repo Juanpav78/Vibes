@@ -1,134 +1,133 @@
 ---
-import Carrousel from "./Carrousel.astro";
-import imgBlog from "../img/blog.jpg"
+import { Image } from 'astro:assets';
+import Carrousel from './Carrousel.astro';
+import Icon from './ui/Icon.astro';
+import { posts, formatDate } from '../data/site';
 ---
 
-<section class="blog">
-    <h3 class="subtitle">Testimonials from our</h3>
-    <h2 class="title">blog</h2>
-    <Carrousel num={3}>
-        <div class="carrousel__contain">
-            <div class="blog__content">
-                <div class="blog--card">
-                    <div class="blog--card__card">
-                        <img class="blog--card__img" src={imgBlog} alt="">
-                        <a class="blog--card__btn boton boton--fill" href="#">Read Now</a>
-                    </div>
-                </div>
-                <div class="blog--info">
-                    <div class="blog--info__info">
-                        <h4 class="blog--info__title">How to care for plants</h4>
-                        <p class="blog--info__text">Fusce volutpat, mi vel vestibulum ornare, metus metus facilisis erat, et dignissim nulla erat viverra turpis. Ut ac odio interdum, ultricies nunc a, varius magna. </p>
-                        <p class="blog--info__text">Aenean maximus facilisis lectus, lobortis elementum felis efficitur quis. Vestibulum dignissim et enim quis efficitur. Integer 
-                            elementum mollis rutrum. </p>  
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="carrousel__contain">
-            <div class="blog__content">
-                <div class="blog--card">
-                    <div class="blog--card__card">
-                        <img class="blog--card__img" src={imgBlog} alt="">
-                        <a class="blog--card__btn boton boton--fill" href="#">Read Now</a>
-                    </div>
-                </div>
-                <div class="blog--info">
-                    <div class="blog--info__info">
-                        <h4 class="blog--info__title">How to care for plants</h4>
-                        <p class="blog--info__text">Fusce volutpat, mi vel vestibulum ornare, metus metus facilisis erat, et dignissim nulla erat viverra turpis. Ut ac odio interdum, ultricies nunc a, varius magna. </p>
-                        <p class="blog--info__text">Aenean maximus facilisis lectus, lobortis elementum felis efficitur quis. Vestibulum dignissim et enim quis efficitur. Integer 
-                            elementum mollis rutrum. </p>  
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="carrousel__contain">
-            <div class="blog__content">
-                <div class="blog--card">
-                    <div class="blog--card__card">
-                        <img class="blog--card__img" src={imgBlog} alt="">
-                        <a class="blog--card__btn boton boton--fill" href="#">Read Now</a>
-                    </div>
-                </div>
-                <div class="blog--info">
-                    <div class="blog--info__info">
-                        <h4 class="blog--info__title">How to care for plants</h4>
-                        <p class="blog--info__text">Fusce volutpat, mi vel vestibulum ornare, metus metus facilisis erat, et dignissim nulla erat viverra turpis. Ut ac odio interdum, ultricies nunc a, varius magna. </p>
-                        <p class="blog--info__text">Aenean maximus facilisis lectus, lobortis elementum felis efficitur quis. Vestibulum dignissim et enim quis efficitur. Integer 
-                            elementum mollis rutrum. </p>  
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </Carrousel>
-   
+<section class="blog section section--soft">
+	<p class="subtitle" data-reveal>Tips and stories from our</p>
+	<h2 class="title" data-reveal>blog</h2>
+	<div data-reveal>
+		<Carrousel num={posts.length} label="Latest blog posts" autoplay={7000}>
+			{
+				posts.map((post) => (
+					<div class="carrousel__contain">
+						<article class="blog__content">
+							<div class="blog--card">
+								<div class="blog--card__card">
+									<Image
+										class="blog--card__img"
+										src={post.image}
+										alt=""
+										width={440}
+										height={360}
+										fit="cover"
+										quality={72}
+									/>
+									<a class="blog--card__btn boton boton--fill" href={`/blog#${post.id}`}>
+										Read now <Icon name="arrow-right" size={18} />
+									</a>
+								</div>
+							</div>
+							<div class="blog--info">
+								<div class="blog--info__info">
+									<time class="blog--info__date" datetime={post.date}>
+										{formatDate(post.date)}
+									</time>
+									<h3 class="blog--info__title">{post.title}</h3>
+									<p class="blog--info__text">{post.excerpt}</p>
+									<p class="blog--info__text">{post.body[0]}</p>
+								</div>
+							</div>
+						</article>
+					</div>
+				))
+			}
+		</Carrousel>
+	</div>
 </section>
+
 <style>
-    .blog{
-        background-color: var(--color-shader-w);
-    }
+	.blog__content {
+		margin-top: 2em;
+		display: flex;
+		align-items: center;
+	}
 
-    .blog__content{
-        margin-top: 2em;
-        display: flex;
-    }
+	@media (max-width: 75em) {
+		.blog__content {
+			flex-direction: column-reverse;
+			align-items: center;
+		}
+	}
 
-    @media (max-width: 75em) {
-        .blog__content{
-            flex-direction: column-reverse;
-            align-items: center;
-        }
-    }
+	.blog--card,
+	.blog--info {
+		flex: 1;
+		padding: 1em;
+	}
+	.blog--card {
+		display: flex;
+		justify-content: center;
+	}
+	.blog--card .blog--card__card {
+		width: 100%;
+		max-width: 22em;
+		height: 22em;
+		border-radius: var(--radius);
+		overflow: hidden;
+		box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+		display: flex;
+		flex-direction: column;
+		transition: box-shadow 0.4s;
+	}
+	.blog--card .blog--card__card:hover {
+		box-shadow: var(--shadow-lg);
+	}
+	.blog--card .blog--card__img {
+		flex: 1;
+		min-height: 0;
+		width: 100%;
+		object-fit: cover;
+		transition: transform 0.8s var(--ease-out);
+	}
+	.blog--card__card:hover .blog--card__img {
+		transform: scale(1.06);
+	}
+	.blog--card .blog--card__btn {
+		display: flex;
+	}
+	.blog--card .blog--card__btn:hover {
+		transform: none;
+	}
 
-    .blog--card,
-    .blog--info
-    {
-        flex: 1;
-        padding: 1em;
-    }
+	.blog--info .blog--info__info {
+		color: var(--color-primary);
+	}
+	.blog--info__date {
+		font-size: 0.95em;
+		color: var(--color-secondary);
+	}
+	.blog--info .blog--info__title {
+		margin: 0.3em 0 0;
+		font-size: 1.7em;
+	}
+	.blog--info .blog--info__text {
+		font-size: 1.15em;
+		color: var(--color-muted);
+	}
 
-    .blog--card{
-    }
-    .blog--card .blog--card__card{
-        width: 100%;
-        max-width: 22em;
-        height: 22em;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
-        display: flex;
-        flex-direction: column;
-    }
-    .blog--card .blog--card__img{
-        height: 100%;
-        width: 100%;
-    }
-    .blog--card .blog--card__btn{
-        display: block;
-    }
-
-    .blog--info{
-
-    }
-    .blog--info .blog--info__info{
-        color: var(--color-primary);
-    }
-    .blog--info .blog--info__title{
-        margin-top: 0;
-        font-size: 1.7em;
-
-    }
-    .blog--info .blog--info__text{
-        font-size: 1.2em;
-    }
-
-    @media (max-width: 48em) {
-        .blog--info{
-            text-align: center;
-        }
-    }
-    
-    
+	@media (max-width: 48em) {
+		.blog--info {
+			text-align: center;
+			padding-inline: 0;
+		}
+		.blog--card .blog--card__card {
+			height: 18em;
+		}
+		.blog--info .blog--info__text + .blog--info__text {
+			display: none;
+		}
+	}
 </style>

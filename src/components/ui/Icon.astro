@@ -1,0 +1,58 @@
+---
+// Iconos SVG en línea: se renderizan en el servidor, 0 KB de JS en el cliente.
+import {
+  Leaf, Truck, Store, Pointer, MapPin, Clock, Phone, Mail, Star, ShoppingBag,
+  Sun, Droplets, Ruler, ArrowRight, Eye, Plus, Search, Menu, X, Send, Quote, PawPrint,
+} from 'lucide-react';
+
+const lucide = {
+  leaf: Leaf, truck: Truck, store: Store, pointer: Pointer, 'map-pin': MapPin, clock: Clock,
+  phone: Phone, mail: Mail, star: Star, bag: ShoppingBag, sun: Sun, water: Droplets, ruler: Ruler,
+  'arrow-right': ArrowRight, eye: Eye, plus: Plus, search: Search, menu: Menu, x: X, send: Send,
+  quote: Quote, paw: PawPrint,
+};
+
+// Iconos de marcas (lucide ya no los incluye)
+const brands: Record<string, string> = {
+  instagram:
+    '<rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>',
+  facebook: '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
+  youtube:
+    '<path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/>',
+  twitter:
+    '<path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>',
+};
+
+export type IconName = keyof typeof lucide | 'instagram' | 'facebook' | 'youtube' | 'twitter';
+
+interface Props {
+  name: IconName;
+  size?: number;
+  class?: string;
+  fill?: string;
+}
+
+const { name, size = 24, class: className, fill = 'none' } = Astro.props;
+const LucideIcon = lucide[name as keyof typeof lucide];
+---
+
+{
+  LucideIcon ? (
+    <LucideIcon size={size} className={className} fill={fill} aria-hidden="true" />
+  ) : (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill={fill}
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class={className}
+      aria-hidden="true"
+      set:html={brands[name]}
+    />
+  )
+}

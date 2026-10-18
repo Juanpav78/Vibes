@@ -1,0 +1,62 @@
+---
+// Cabecera para páginas interiores, con la misma estética que el hero de inicio
+interface Props {
+	subtitle: string;
+	title: string;
+	text?: string;
+}
+const { subtitle, title, text } = Astro.props;
+---
+
+<section class="page-hero">
+	<div class="contain">
+		<p class="subtitle">{subtitle}</p>
+		<h1 class="title page-hero__title">{title}</h1>
+		{text && <p class="lead">{text}</p>}
+	</div>
+</section>
+
+<style>
+	.page-hero {
+		position: relative;
+		padding: 4em 0 3.5em;
+		background: var(--color-shader-w);
+		overflow: hidden;
+	}
+	.page-hero::after {
+		content: '';
+		position: absolute;
+		right: -6rem;
+		top: -6rem;
+		width: 22rem;
+		height: 22rem;
+		border-radius: 50%;
+		background: var(--texture) center / cover;
+		opacity: 0.12;
+		animation: spin 60s linear infinite;
+		pointer-events: none;
+	}
+	@keyframes spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+	.page-hero .contain > * {
+		animation: rise 0.9s var(--ease-out) both;
+	}
+	.page-hero .contain > :nth-child(2) {
+		animation-delay: 0.1s;
+	}
+	.page-hero .contain > :nth-child(3) {
+		animation-delay: 0.2s;
+	}
+	.page-hero__title {
+		font-size: clamp(2.6em, 7vw, 4.5em);
+	}
+	@keyframes rise {
+		from {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+	}
+</style>

@@ -1,72 +1,126 @@
 ---
-import Carrousel from "./Carrousel.astro";
+import Carrousel from './Carrousel.astro';
+import Icon from './ui/Icon.astro';
+import { testimonials } from '../data/site';
+
+const initials = (name: string) =>
+	name
+		.split(' ')
+		.map((part) => part[0])
+		.join('')
+		.slice(0, 2);
 ---
 
-<section class="blog">
-    <h3 class="subtitle">Testimonials from our</h3>
-    <h2 class="title">satisfied Clients</h2>
-    <Carrousel num={4}>
-        <div class=" carrousel__contain ">
-            <blockquote class="testimonial">
-                <p class="testimonial__text">A pesar de los que muchos piensan, el libro no es autobiográfico, aunque podría encajar en la mayor parte de mi vida</p>
-                <div class="testimonial__person">
-                    <div class="testimonial__person__perfil">
-                        <img class="testimonial__person__img" src="" alt="">
-                    </div>
-                    <footer>- María Álvarez, autora del libro "Bla bla bla"</footer>
-                </div>
-            </blockquote>
-        </div>
-        <div class=" carrousel__contain ">
-            <blockquote class="testimonial">
-                <p class="testimonial__text">A pesar de los que muchos piensan, el libro no es autobiográfico, aunque podría encajar en la mayor parte de mi vida</p>
-                <div class="testimonial__person">
-                    <div class="testimonial__person__perfil">
-                        <img class="testimonial__person__img" src="" alt="">
-                    </div>
-                    <footer>- María Álvarez, autora del libro "Bla bla bla"</footer>
-                </div>
-            </blockquote>
-        </div>
-        <div class=" carrousel__contain ">
-            <blockquote class="testimonial">
-                <p class="testimonial__text">A pesar de los que muchos piensan, el libro no es autobiográfico, aunque podría encajar en la mayor parte de mi vida</p>
-                <div class="testimonial__person">
-                    <div class="testimonial__person__perfil">
-                        <img class="testimonial__person__img" src="" alt="">
-                    </div>
-                    <footer>- María Álvarez, autora del libro "Bla bla bla"</footer>
-                </div>
-            </blockquote>
-        </div>
-        <div class=" carrousel__contain ">
-            <blockquote class="testimonial">
-                <p class="testimonial__text">A pesar de los que muchos piensan, el libro no es autobiográfico, aunque podría encajar en la mayor parte de mi vida</p>
-                <div class="testimonial__person">
-                    <div class="testimonial__person__perfil">
-                        <img class="testimonial__person__img" src="" alt="">
-                    </div>
-                    <footer>- María Álvarez, autora del libro "Bla bla bla"</footer>
-                </div>
-            </blockquote>
-        </div>
-      
-    </Carrousel>
+<section class="testimonials section section--soft">
+	<p class="subtitle" data-reveal>Testimonials from our</p>
+	<h2 class="title" data-reveal>satisfied Clients</h2>
+	<div data-reveal>
+		<Carrousel num={testimonials.length} label="Customer testimonials" autoplay={6000}>
+			{
+				testimonials.map((t, i) => (
+					<div class="carrousel__contain">
+						<figure class="testimonial">
+							<span class="testimonial__quote">
+								<Icon name="quote" size={40} />
+							</span>
+							<div class="testimonial__stars" role="img" aria-label={`${t.rating} out of 5 stars`}>
+								{Array.from({ length: 5 }, (_, s) => (
+									<span class:list={{ off: s >= t.rating }}>
+										<Icon name="star" size={18} fill="currentColor" />
+									</span>
+								))}
+							</div>
+							<blockquote class="testimonial__text">
+								<p>“{t.text}”</p>
+							</blockquote>
+							<figcaption class="testimonial__person">
+								<span class="testimonial__person__perfil" style={`--hue: ${90 + i * 22}`} aria-hidden="true">
+									{initials(t.name)}
+								</span>
+								<span>
+									<strong>{t.name}</strong>
+									<small>{t.role}</small>
+								</span>
+							</figcaption>
+						</figure>
+					</div>
+				))
+			}
+		</Carrousel>
+	</div>
 </section>
+
 <style>
-    .testimonial{
-
-    }
-    .testimonial .testimonial__text{
-
-    }
-    .testimonial .testimonial__person{
-
-    }
-    .testimonial .testimonial__person__perfil{
-
-    }
-    .testimonial .testimonial__person__img{
-
-    }
+	.testimonial {
+		position: relative;
+		max-width: 44em;
+		margin: 1.5em auto 0;
+		padding: 2.5em 2em 2em;
+		background: var(--color-white);
+		border-radius: var(--radius);
+		box-shadow: var(--shadow-sm);
+		text-align: center;
+	}
+	.testimonial__quote {
+		position: absolute;
+		top: -1.2rem;
+		left: 50%;
+		translate: -50% 0;
+		display: grid;
+		place-items: center;
+		width: 3.4rem;
+		height: 3.4rem;
+		border-radius: 50%;
+		background: var(--color-primary);
+		color: var(--color-white);
+	}
+	.testimonial__quote :global(svg) {
+		width: 22px;
+		height: 22px;
+	}
+	.testimonial__stars {
+		display: flex;
+		justify-content: center;
+		gap: 0.15em;
+		color: var(--color-secondary);
+	}
+	.testimonial__stars .off {
+		opacity: 0.25;
+	}
+	.testimonial__text p {
+		font-size: clamp(1.05em, 2.4vw, 1.3em);
+		line-height: 1.6;
+		color: var(--color-dark);
+		margin: 0.8em 0 1.2em;
+	}
+	.testimonial__person {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.8em;
+		text-align: left;
+		color: var(--color-primary);
+	}
+	.testimonial__person strong {
+		display: block;
+		font-family: var(--font-title);
+	}
+	.testimonial__person small {
+		color: var(--color-muted);
+	}
+	.testimonial__person__perfil {
+		display: grid;
+		place-items: center;
+		width: 3.2rem;
+		height: 3.2rem;
+		border-radius: 50%;
+		background: hsl(var(--hue) 35% 88%);
+		color: hsl(var(--hue) 45% 25%);
+		font-family: var(--font-title);
+		font-weight: 700;
+	}
+	@media (max-width: 48em) {
+		.testimonial {
+			padding: 2.5em 1.2em 1.5em;
+		}
+	}
 </style>

@@ -1,92 +1,185 @@
 ---
-import bgText from "../img/ImagenFondoVibes2.jpg"
-
-
-
+import { Image } from 'astro:assets';
+import Icon from './ui/Icon.astro';
+import heroImg from '../img/ImagenFondoVibes2.jpg';
+import { site } from '../data/config';
 ---
 
 <section class="home">
-
-    <div class="home__bg">
-        <div class="home__bg__info"></div>
-        <div class="home__bg__img">
-            <img src={bgText} alt="">
-        </div>
-    </div>
-    <div class="contain">
-        <div class=" home__info">
-            <h1 class="home__title title">Plants & life</h1>
-            <p class="home__description">The best company for your home</p>
-    
-            <a class="boton boton--fill" href="">Shop now</a>
-        </div>
-    </div>
-
+	<div class="home__bg" aria-hidden="true">
+		<div class="home__bg__info"></div>
+		<div class="home__bg__img">
+			<Image
+				src={heroImg}
+				alt=""
+				width={960}
+				height={1440}
+				widths={[400, 640, 960]}
+				sizes="(max-width: 75em) 1px, 33vw"
+				loading="eager"
+				fetchpriority="high"
+				quality={55}
+			/>
+		</div>
+	</div>
+	<div class="contain home__contain">
+		<div class="home__info">
+			<h1 class="home__title title">
+				<span>Plants</span>
+				<span>&amp; life</span>
+			</h1>
+			<p class="home__description">{site.tagline}</p>
+			<div class="home__ctas">
+				<a class="boton boton--fill" href="/catalog">Shop now <Icon name="arrow-right" size={20} /></a>
+				<a class="home__link" href="/find">Visit a store</a>
+			</div>
+		</div>
+	</div>
+	<a class="home__scroll" href="#services" aria-label="Scroll to content"><span></span></a>
 </section>
 
 <style>
-    .home{
-        background-color: var(--color-shader-w);
-        height: calc(100vh - 119.02px);
-        overflow: hidden;
-    }
-    .home .home__bg{
-        display: flex;
-        height: 100%;
-    }
-    .home .home__bg .home__bg__info{
-        flex: 2;
-    }
-    .home .home__bg .home__bg__img{
-        flex: 1;
-        overflow: hidden;
-    }
-    .home .home__bg .home__bg__img img{
-    width: 120%;
-    height: 120%;
-    }
+	.home {
+		position: relative;
+		background-color: var(--color-shader-w);
+		min-height: calc(100svh - var(--header-h));
+		overflow: hidden;
+		display: grid;
+	}
+	.home__bg,
+	.home__contain {
+		grid-area: 1 / 1;
+	}
+	.home .home__bg {
+		display: flex;
+	}
+	.home .home__bg .home__bg__info {
+		flex: 2;
+	}
+	.home .home__bg .home__bg__img {
+		flex: 1;
+		overflow: hidden;
+		animation: reveal-img 1.4s var(--ease-out) both;
+	}
+	.home .home__bg .home__bg__img img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		animation: ken-burns 18s ease-in-out infinite alternate;
+	}
+	@keyframes reveal-img {
+		from {
+			clip-path: inset(0 0 0 100%);
+		}
+	}
+	@keyframes ken-burns {
+		from {
+			transform: scale(1.15);
+		}
+		to {
+			transform: scale(1.02) translate(-2%, 1%);
+		}
+	}
 
-    .contain{
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        margin-top:8em;
-    }
-    .home .home__info{
-        width: 50%;
-    }
-    .home .home__title{
-       
-        font-size: 8.2em;
-        text-align: start;
-        margin-top: 1em;
-        margin-bottom: 0;
-    }
-    .home .home__description{
-        font-size: 2.4em;
-        color: var(--color-dark);
-    }
+	.home__contain {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		padding-block: 3em;
+	}
+	.home .home__info {
+		width: 50%;
+	}
+	.home .home__title {
+		font-size: clamp(4em, 9vw, 8.2em);
+		text-align: start;
+		margin: 0;
+		line-height: 1.05;
+		margin-inline: 0;
+	}
+	.home__title span {
+		display: block;
+		animation: rise 1s var(--ease-out) both;
+	}
+	.home__title span:nth-child(2) {
+		animation-delay: 0.12s;
+	}
+	.home .home__description {
+		font-size: clamp(1.5em, 3vw, 2.4em);
+		color: var(--color-dark);
+		margin: 0.6em 0 1em;
+		animation: rise 1s 0.25s var(--ease-out) both;
+	}
+	.home__ctas {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 1.5em;
+		animation: rise 1s 0.38s var(--ease-out) both;
+	}
+	.home__link {
+		color: var(--color-primary);
+		font-size: 1.1em;
+		background: linear-gradient(currentColor, currentColor) 0 100% / 0 2px no-repeat;
+		transition: background-size 0.4s var(--ease-out);
+	}
+	.home__link:hover {
+		background-size: 100% 2px;
+	}
+	@keyframes rise {
+		from {
+			opacity: 0;
+			transform: translateY(40px);
+		}
+	}
 
-    @media (max-width: 75em) {
-        .home .home__info{
-        width: auto;
-        }
-        .home .home__bg__img{
-            display: none;
-        }
-    }
-    @media (max-width: 48em) {
-        .home .home__info{
-        width: auto;
-        }
-        .home .home__bg__img{
-            display: none;
-        }
-        .home .home__title{
-            font-size: 6em;
-        }
-    }
+	.home__scroll {
+		position: absolute;
+		left: 50%;
+		bottom: 1.5rem;
+		translate: -50% 0;
+		width: 1.6rem;
+		height: 2.6rem;
+		border: 2px solid var(--color-primary);
+		border-radius: 999px;
+		opacity: 0.6;
+		transition: opacity 0.3s;
+	}
+	.home__scroll:hover {
+		opacity: 1;
+	}
+	.home__scroll span {
+		position: absolute;
+		left: 50%;
+		top: 0.4rem;
+		width: 4px;
+		height: 8px;
+		margin-left: -2px;
+		border-radius: 4px;
+		background: var(--color-primary);
+		animation: scroll-dot 1.8s ease-in-out infinite;
+	}
+	@keyframes scroll-dot {
+		60% {
+			transform: translateY(12px);
+			opacity: 0;
+		}
+	}
+
+	@media (max-width: 75em) {
+		.home .home__info {
+			width: auto;
+		}
+		.home .home__bg__img {
+			display: none;
+		}
+	}
+	@media (max-width: 48em) {
+		.home {
+			min-height: calc(85svh - var(--header-h));
+		}
+		.home__scroll {
+			display: none;
+		}
+	}
 </style>
-

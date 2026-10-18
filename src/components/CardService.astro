@@ -1,43 +1,79 @@
 ---
+import Icon, { type IconName } from './ui/Icon.astro';
+
 interface Props {
 	title: string;
-    ico: string
+	ico: IconName;
 	description: string;
 }
 
 const { title, ico, description } = Astro.props;
 ---
 
-    <div class="card">
-        <i class=`${ico} card__ico`></i>
-        <h4 class="card__title">{title}</h4>
-        <p class="card__description">{description}</p>
-    </div>
-
+<article class="card" data-reveal>
+	<span class="card__ico"><Icon name={ico} size={44} /></span>
+	<h3 class="card__title">{title}</h3>
+	<p class="card__description">{description}</p>
+</article>
 
 <style>
-    .card{
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        border-radius: 2px;
-        padding: 1.2em;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .card .card__ico{
-        text-align: center;
-        font-size: 4.4em;
-        margin: .2em;
-        margin-bottom: 0;
-        color: var(--color-primary);
-    }
-    .card .card__title{
-        font-size: 2em;
-        color: var(--color-primary);
-        margin-bottom: 0;
-    }
-    .card .card__description{
-        font-size: 1.1em;
-        color: var(--color-dark);
-    }
+	.card {
+		position: relative;
+		box-shadow: var(--shadow-sm);
+		border-radius: 2px;
+		padding: 1.6em 1.4em;
+		display: flex;
+		flex-direction: column;
+		background: var(--color-white);
+		overflow: hidden;
+		transition:
+			transform 0.4s var(--ease-out),
+			box-shadow 0.4s var(--ease-out);
+	}
+	.card::before {
+		content: '';
+		position: absolute;
+		inset: auto 0 0 0;
+		height: 4px;
+		background: var(--color-primary);
+		transform: scaleX(0);
+		transform-origin: left;
+		transition: transform 0.5s var(--ease-out);
+	}
+	.card:hover {
+		transform: translateY(-6px);
+		box-shadow: var(--shadow-md);
+	}
+	.card:hover::before {
+		transform: scaleX(1);
+	}
+	.card .card__ico {
+		align-self: center;
+		display: grid;
+		place-items: center;
+		width: 5.5rem;
+		height: 5.5rem;
+		border-radius: 50%;
+		background: var(--color-mint);
+		color: var(--color-primary);
+		transition:
+			transform 0.5s var(--ease-spring),
+			background-color 0.4s,
+			color 0.4s;
+	}
+	.card:hover .card__ico {
+		transform: rotate(-8deg) scale(1.08);
+		background: var(--color-primary);
+		color: var(--color-white);
+	}
+	.card .card__title {
+		font-size: 1.8em;
+		color: var(--color-primary);
+		margin: 0.7em 0 0;
+	}
+	.card .card__description {
+		font-size: 1.05em;
+		color: var(--color-muted);
+		margin-bottom: 0;
+	}
 </style>

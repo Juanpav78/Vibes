@@ -1,15 +1,199 @@
 ---
+import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Services from '../components/Services.astro';
+import Testimonial from '../components/Testimonial.astro';
+import Icon from '../components/ui/Icon.astro';
+import storyImg from '../img/ImagenFondoVibes3.jpg';
+import teamImg from '../img/blog.jpg';
+
+const stats = [
+	{ value: 12, suffix: 'k+', label: 'Plants delivered' },
+	{ value: 3, suffix: '', label: 'Physical stores' },
+	{ value: 60, suffix: '+', label: 'Plant species' },
+	{ value: 98, suffix: '%', label: 'Happy customers' },
+];
 ---
 
-<Layout title="About Us" description="Pagina de plantas construida con react y astro, diseño ux/ui">
-	<main class="main">
-		<h1 class="title">About us</h1>
-	</main>
+<Layout title="About Us" description="Meet Vibes: a small team of plant lovers growing healthy indoor plants and helping people bring nature home.">
+	<PageHero subtitle="Who we are" title="About us" text="We started in a tiny greenhouse with a big idea: every home deserves a little piece of nature." />
+
+	<section class="section">
+		<div class="contain story">
+			<div class="story__media" data-reveal="left">
+				<Image src={storyImg} alt="Close-up of green leaves in our greenhouse" width={720} height={820} fit="cover" quality={70} />
+				<div class="story__badge">
+					<Icon name="leaf" size={28} />
+					<span><strong>Since 2019</strong> growing with love</span>
+				</div>
+			</div>
+			<div class="story__text" data-reveal>
+				<h2>Plants &amp; life, together</h2>
+				<p>
+					Vibes was born from a simple question: why do so many plants die at home? We discovered that most people just need the right plant for their space and a little guidance.
+				</p>
+				<p>
+					Today we grow our plants in our own greenhouse, we choose every pot by hand and we share everything we know in our blog and stores. No jargon, no complicated care routines — just healthy plants and good vibes.
+				</p>
+				<div class="story__team">
+					<Image src={teamImg} alt="" width={96} height={96} fit="cover" quality={70} />
+					<p>“Our goal is that every plant that leaves Vibes lives long and happy in its new home.”<br /><small>— The Vibes team</small></p>
+				</div>
+				<a class="boton boton--fill" href="/catalog">Explore the catalog <Icon name="arrow-right" size={20} /></a>
+			</div>
+		</div>
+	</section>
+
+	<section class="stats">
+		<div class="contain stats__grid" data-reveal-stagger="120">
+			{
+				stats.map((s) => (
+					<div class="stat" data-reveal>
+						<strong data-count={s.value} data-suffix={s.suffix}>
+							{s.value}
+							{s.suffix}
+						</strong>
+						<span>{s.label}</span>
+					</div>
+				))
+			}
+		</div>
+	</section>
+
+	<Services />
+	<Testimonial />
 </Layout>
 
+<script>
+	// Contadores animados al entrar en pantalla
+	document.addEventListener('astro:page-load', () => {
+		const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+		const io = new IntersectionObserver((entries) => {
+			for (const entry of entries) {
+				if (!entry.isIntersecting) continue;
+				io.unobserve(entry.target);
+				const el = entry.target as HTMLElement;
+				const end = Number(el.dataset.count);
+				const suffix = el.dataset.suffix ?? '';
+				if (reduce) continue;
+				const start = performance.now();
+				const tick = (now: number) => {
+					const p = Math.min(1, (now - start) / 1400);
+					el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))) + suffix;
+					if (p < 1) requestAnimationFrame(tick);
+				};
+				requestAnimationFrame(tick);
+			}
+		});
+		document.querySelectorAll('[data-count]').forEach((el) => io.observe(el));
+	});
+</script>
+
 <style>
-	.main{
-		background-color: var(--color-shader-w);
+	.story {
+		display: grid;
+		grid-template-columns: 1fr 1.1fr;
+		gap: 4em;
+		align-items: center;
+	}
+	.story__media {
+		position: relative;
+	}
+	.story__media img {
+		width: 100%;
+		aspect-ratio: 7 / 8;
+		object-fit: cover;
+		border-radius: var(--radius);
+		box-shadow: var(--shadow-lg);
+	}
+	.story__badge {
+		position: absolute;
+		right: -1.5rem;
+		bottom: 2rem;
+		display: flex;
+		align-items: center;
+		gap: 0.7em;
+		padding: 1em 1.3em;
+		background: var(--color-white);
+		border-radius: var(--radius);
+		box-shadow: var(--shadow-md);
+		color: var(--color-primary);
+		animation: float 5s ease-in-out infinite;
+	}
+	.story__badge strong {
+		display: block;
+		font-family: var(--font-title);
+		font-size: 1.2em;
+	}
+	@keyframes float {
+		50% {
+			transform: translateY(-10px);
+		}
+	}
+	.story__text h2 {
+		margin-top: 0;
+		font-size: clamp(2em, 4vw, 2.8em);
+		color: var(--color-primary);
+	}
+	.story__text > p {
+		font-size: 1.15em;
+		line-height: 1.75;
+		color: var(--color-muted);
+	}
+	.story__team {
+		display: flex;
+		align-items: center;
+		gap: 1em;
+		margin: 1.5em 0 2em;
+		padding: 1em;
+		background: var(--color-mint);
+		border-radius: var(--radius);
+		color: var(--color-primary);
+	}
+	.story__team img {
+		width: 4.5rem;
+		height: 4.5rem;
+		border-radius: 50%;
+		object-fit: cover;
+		flex-shrink: 0;
+	}
+	.story__team p {
+		margin: 0;
+		font-style: italic;
+	}
+
+	.stats {
+		background: var(--color-primary);
+		color: var(--color-white);
+		padding: 3em 0;
+	}
+	.stats__grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 2em;
+		text-align: center;
+	}
+	.stat strong {
+		display: block;
+		font-family: var(--font-title);
+		font-size: clamp(2.4em, 5vw, 3.5em);
+		font-variant-numeric: tabular-nums;
+	}
+	.stat span {
+		opacity: 0.8;
+	}
+
+	@media (max-width: 64em) {
+		.story {
+			grid-template-columns: 1fr;
+			gap: 3em;
+		}
+		.story__badge {
+			right: 1rem;
+		}
+		.stats__grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
 	}
 </style>

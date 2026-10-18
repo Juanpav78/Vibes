@@ -1,100 +1,128 @@
 ---
+import Carousel from './react/Carousel';
+
 interface Props {
-    // num => indica la cantidad de divs o paginas que va a disponer el carrousel 
+	// num => cantidad de divs (.carrousel__contain) o páginas del carrusel
 	num: number;
+	label: string;
+	autoplay?: number;
 }
 
-const { num } = Astro.props;
-
-import CarrouselReact from './CarrouselReact';
-    
+const { num, label, autoplay = 0 } = Astro.props;
 ---
-<CarrouselReact client:load num={num}>
-<slot/>
-</CarrouselReact>
+
+<Carousel client:visible num={num} label={label} autoplay={autoplay}>
+	<slot />
+</Carousel>
 
 <style is:global>
-    .carrousel{
-        margin: 1em 0;
-        overflow: hidden;
-        padding: 1em 0;
-    }
-    .carrousel .carrousel__dots{
-        display: flex;
-        justify-content: center;
-        gap: 1.5em;
-    }
-    .carrousel .carrousel__dot{
+	.carrousel {
+		margin: 1em 0;
+		overflow: hidden;
+		padding: 1em 0;
+	}
+	.carrousel .carrousel__dots {
+		display: flex;
+		justify-content: center;
+		gap: 0.5em;
+	}
+	.carrousel .carrousel__dot {
+		padding: 0.5em;
+	}
+	.carrousel .carrousel__dot::after {
+		content: '';
+		display: block;
+		width: 0.6em;
+		height: 0.6em;
+		border-radius: 999px;
+		background-color: #3b5a2646;
+		transition:
+			width 0.5s var(--ease-out),
+			background-color 0.5s;
+	}
+	.carrousel .carrousel__dot:hover::after {
+		background-color: #3b5a2699;
+	}
+	.carrousel .carrousel__dot.active::after {
+		width: 1.8em;
+		background-color: var(--color-primary);
+	}
+	.carrousel__movil {
+		display: grid;
+		grid-template-columns: 1fr 4fr 1fr;
+		grid-column-gap: 1em;
+		justify-items: center;
+		align-items: center;
+	}
+	.carrousel__visible {
+		overflow: hidden;
+		width: 100%;
+		grid-area: 1 / 2 / 2 / 3;
+		touch-action: pan-y;
+		cursor: grab;
+		user-select: none;
+	}
+	.carrousel__visible:active {
+		cursor: grabbing;
+	}
+	.carrousel__visible img {
+		pointer-events: none;
+	}
+	.carrousel .carrousel__content {
+		display: flex;
+		transition: transform 0.7s var(--ease-out);
+		will-change: transform;
+	}
+	.carrousel .carrousel__content.is-dragging {
+		transition: none;
+	}
+	.carrousel .carrousel__content .carrousel__contain {
+		flex: 0 0 100%;
+		min-width: 0;
+		transition: opacity 0.6s;
+	}
+	.carrousel .carrousel__content .carrousel__contain[inert] {
+		opacity: 0.35;
+	}
+	.carrousel .carrousel__arrow {
+		display: grid;
+		place-items: center;
+		width: 3rem;
+		height: 3rem;
+		border-radius: 50%;
+		color: #3b5a2680;
+		transition:
+			color 0.3s,
+			background-color 0.3s,
+			transform 0.3s var(--ease-spring);
+	}
+	.carrousel .carrousel__arrow:hover {
+		color: var(--color-primary);
+		background-color: var(--color-mint);
+	}
+	.carrousel .carrousel__arrow--left {
+		grid-area: 1 / 1 / 2 / 2;
+		justify-self: right;
+	}
+	.carrousel .carrousel__arrow--left:hover {
+		transform: translateX(-4px);
+	}
+	.carrousel .carrousel__arrow--rigth {
+		grid-area: 1 / 3 / 2 / 4;
+		justify-self: left;
+	}
+	.carrousel .carrousel__arrow--rigth:hover {
+		transform: translateX(4px);
+	}
 
-    }
-    .carrousel .carrousel__dot::after{
-    content: "";
-    display: block;
-    width: .6em;
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    background-color: #3b5a2646;
-    transition: all .5s ease-in-out;
-    }
-
-    .carrousel .carrousel__dot.active::after{
-    background-color: #3b5a26;
-    transform: scale(1.2);
-    transform-origin: center;
-    transition: all .5s ease-in-out;
-    }
-    .carrousel__movil{
-        display: grid;
-        grid-template-columns: 1fr 4fr 1fr;
-        grid-template-rows: 1fr;
-        grid-column-gap: 1em;
-        grid-row-gap: 0px;
-
-        justify-items: center;
-        align-items: center;
-
-    }
-
-    .carrousel__visible{
-        overflow: hidden;
-        width: 100%;
-        grid-area: 1 / 2 / 2 / 3;
-    }
-
-    .carrousel .carrousel__content{
-        
-        width: calc(100% * var(--num));
-        display: flex;
-        transition: .5s all;
-    }
-    .carrousel .carrousel__content .carrousel__contain  {
-        width: calc(100% / var(--num));
-        
-    }
-    .carrousel .carrousel__arrow{
-        color: #3b5a2646;
-        cursor: pointer;
-        font-size: 1.5em;
-        transition: all .3s ease-in-out;
-    }
-    .carrousel .carrousel__arrow:hover{
-        color: #3b5a26;
-        transition: all .3s ease-in-out;
-    }
-    .carrousel .carrousel__arrow--left{
-        grid-area: 1 / 1 / 2 / 2;
-        justify-self: right;
-    }
-    .carrousel .carrousel__arrow--rigth{
-        grid-area: 1 / 3 / 2 / 4;
-        justify-self: left;
-    }
-
-    @media (max-width: 48em) {
-        .carrousel__movil{
-            gap: 0;
-            padding: 0;
-            grid-template-columns: 1fr 8fr 1fr;
-        }
-    }
+	@media (max-width: 48em) {
+		.carrousel__movil {
+			gap: 0;
+			grid-template-columns: 1fr 8fr 1fr;
+		}
+		.carrousel .carrousel__arrow {
+			width: 2.25rem;
+			height: 2.25rem;
+		}
+	}
 </style>

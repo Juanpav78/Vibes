@@ -1,0 +1,246 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CardPlant from '../components/CardPlant.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/ui/Icon.astro';
+import { plants, TAG_LABELS, type Tag } from '../data/plants';
+
+const usedTags = (Object.keys(TAG_LABELS) as Tag[]).filter((tag) => plants.some((p) => p.tags.includes(tag)));
+---
+
+<Layout title="Catalog" description="Browse our full catalog of indoor plants: filter by care level, light and pet safety, and order by WhatsApp.">
+	<PageHero subtitle="Find your next" title="green friend" />
+
+	<section class="catalog section">
+		<div class="contain">
+			<div class="toolbar" data-reveal>
+				<label class="search">
+					<Icon name="search" size={20} />
+					<span class="sr-only">Search plants</span>
+					<input type="search" placeholder="Search plants…" data-filter-search />
+				</label>
+				<label class="sort">
+					<span class="sr-only">Sort by</span>
+					<select data-filter-sort>
+						<option value="featured">Featured</option>
+						<option value="price-asc">Price: low to high</option>
+						<option value="price-desc">Price: high to low</option>
+						<option value="name">Name A–Z</option>
+					</select>
+				</label>
+			</div>
+
+			<div class="chips" role="group" aria-label="Filter by" data-reveal>
+				<button class="chip is-active" data-filter-tag="all" aria-pressed="true">All</button>
+				{
+					usedTags.map((tag) => (
+						<button class="chip" data-filter-tag={tag} aria-pressed="false">
+							{TAG_LABELS[tag]}
+						</button>
+					))
+				}
+			</div>
+
+			<p class="count" role="status" aria-live="polite" data-filter-count>{plants.length} plants</p>
+
+			<div class="grid" data-reveal-stagger="80" data-catalog-grid>
+				{plants.map((plant) => <CardPlant plant={plant} />)}
+			</div>
+
+			<div class="empty" hidden data-filter-empty>
+				<Icon name="leaf" size={48} />
+				<p>No plants match your search.</p>
+				<button class="boton boton--outline boton--small" data-filter-reset>Clear filters</button>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<script>
+	function initCatalog() {
+		const grid = document.querySelector<HTMLElement>('[data-catalog-grid]');
+		if (!grid) return;
+
+		const cards = [...grid.querySelectorAll<HTMLElement>('.card')];
+		const search = document.querySelector<HTMLInputElement>('[data-filter-search]')!;
+		const sort = document.querySelector<HTMLSelectElement>('[data-filter-sort]')!;
+		const chips = [...document.querySelectorAll<HTMLButtonElement>('[data-filter-tag]')];
+		const count = document.querySelector<HTMLElement>('[data-filter-count]')!;
+		const empty = document.querySelector<HTMLElement>('[data-filter-empty]')!;
+
+		const params = new URLSearchParams(location.search);
+		let tag = chips.some((c) => c.dataset.filterTag === params.get('tag')) ? params.get('tag')! : 'all';
+
+		const apply = () => {
+			const q = search.value.trim().toLowerCase();
+			let visible = 0;
+			const sorted = [...cards].sort((a, b) => {
+				const pa = Number(a.dataset.price), pb = Number(b.dataset.price);
+				if (sort.value === 'price-asc') return pa - pb;
+				if (sort.value === 'price-desc') return pb - pa;
+				if (sort.value === 'name') return a.dataset.name!.localeCompare(b.dataset.name!);
+				return cards.indexOf(a) - cards.indexOf(b);
+			});
+			sorted.forEach((card, i) => {
+				const matchTag = tag === 'all' || card.dataset.tags!.split(' ').includes(tag);
+				const matchText = !q || card.dataset.name!.includes(q);
+				const show = matchTag && matchText;
+				card.hidden = !show;
+				card.style.order = String(i);
+				card.classList.add('is-visible');
+				if (show) visible++;
+			});
+			chips.forEach((c) => {
+				const active = c.dataset.filterTag === tag;
+				c.classList.toggle('is-active', active);
+				c.setAttribute('aria-pressed', String(active));
+			});
+			count.textContent = `${visible} ${visible === 1 ? 'plant' : 'plants'}`;
+			empty.hidden = visible > 0;
+		};
+
+		// Transición suave entre estados del filtro (si el navegador lo soporta)
+		const update = () => {
+			if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return apply();
+			cards.forEach((c, i) => (c.style.viewTransitionName = `catalog-card-${i}`));
+			const vt = document.startViewTransition(apply);
+			vt.finished.finally(() => cards.forEach((c) => (c.style.viewTransitionName = '')));
+		};
+
+		chips.forEach((chip) =>
+			chip.addEventListener('click', () => {
+				tag = chip.dataset.filterTag!;
+				const url = new URL(location.href);
+				tag === 'all' ? url.searchParams.delete('tag') : url.searchParams.set('tag', tag);
+				history.replaceState(history.state, '', url);
+				update();
+			}),
+		);
+		let t: number;
+		search.addEventListener('input', () => {
+			clearTimeout(t);
+			t = window.setTimeout(update, 150);
+		});
+		sort.addEventListener('change', update);
+		document.querySelector('[data-filter-reset]')?.addEventListener('click', () => {
+			tag = 'all';
+			search.value = '';
+			sort.value = 'featured';
+			update();
+		});
+
+		if (tag !== 'all') apply();
+	}
+	document.addEventListener('astro:page-load', initCatalog);
+</script>
+
+<style>
+	.catalog {
+		padding-top: 3em;
+	}
+	.toolbar {
+		display: flex;
+		gap: 1em;
+		flex-wrap: wrap;
+	}
+	.search {
+		flex: 1;
+		min-width: 14em;
+		display: flex;
+		align-items: center;
+		gap: 0.6em;
+		padding: 0 1em;
+		border: 1px solid var(--color-shader-g);
+		border-radius: 2px;
+		color: var(--color-primary);
+		transition:
+			border-color 0.3s,
+			box-shadow 0.3s;
+	}
+	.search:focus-within {
+		border-color: var(--color-primary);
+		box-shadow: 0 0 0 4px var(--color-mint);
+	}
+	.search input {
+		flex: 1;
+		min-width: 0;
+		padding: 0.9em 0;
+		border: 0;
+		outline: none;
+		background: transparent;
+	}
+	.sort select {
+		height: 100%;
+		padding: 0.9em 2.5em 0.9em 1em;
+		border: 1px solid var(--color-shader-g);
+		border-radius: 2px;
+		background: var(--color-white)
+			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%233B5A26' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")
+			no-repeat right 0.9em center;
+		appearance: none;
+		color: var(--color-primary);
+		cursor: pointer;
+	}
+
+	.chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5em;
+		margin-top: 1.25em;
+	}
+	.chip {
+		padding: 0.5em 1.1em;
+		border-radius: 999px;
+		border: 1px solid var(--color-shader-g);
+		color: var(--color-primary);
+		transition:
+			background-color 0.3s,
+			color 0.3s,
+			border-color 0.3s,
+			transform 0.3s var(--ease-spring);
+	}
+	.chip:hover {
+		border-color: var(--color-primary);
+		transform: translateY(-2px);
+	}
+	.chip.is-active {
+		background: var(--color-primary);
+		border-color: var(--color-primary);
+		color: var(--color-white);
+	}
+
+	.count {
+		margin: 1.5em 0 1em;
+		color: var(--color-muted);
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		justify-items: center;
+		gap: 2em;
+	}
+	.grid :global(.card) {
+		max-width: none;
+	}
+	.grid :global(.card[hidden]) {
+		display: none;
+	}
+
+	.empty {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.5em;
+		padding: 3em 1em;
+		color: var(--color-muted);
+		text-align: center;
+	}
+	.empty:not([hidden]) {
+		animation: reveal 0.5s var(--ease-out);
+	}
+	.empty :global(svg) {
+		color: var(--color-primary);
+		opacity: 0.6;
+	}
+</style>
