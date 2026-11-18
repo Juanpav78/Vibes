@@ -7,6 +7,21 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
 ![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=flat&logo=netlify&logoColor=white)
 
+🔗 **Demo:** [vibesplants.netlify.app](https://vibesplants.netlify.app/)
+
+![Vibes — vista de escritorio](https://res.cloudinary.com/degdhu5ep/image/upload/w_1400,q_auto,f_auto/v1792376011/images/q0gygydl1mjtrqfktgz0.png)
+
+<details>
+<summary>📸 Más capturas</summary>
+
+![Vibes — captura 1](https://res.cloudinary.com/degdhu5ep/image/upload/w_1400,q_auto,f_auto/v1792376011/images/e57migmqqq7mapnadfgb.png)
+![Vibes — captura 2](https://res.cloudinary.com/degdhu5ep/image/upload/w_1400,q_auto,f_auto/v1792376011/images/efrfrg6upgk6a858kekh.png)
+![Vibes — captura 3](https://res.cloudinary.com/degdhu5ep/image/upload/w_1400,q_auto,f_auto/v1792376011/images/extnirfgrivyvoms4zsj.png)
+
+<p align="center"><img src="https://res.cloudinary.com/degdhu5ep/image/upload/w_400,q_auto,f_auto/v1793914557/images/wzaudu7bkgtscdj29o0c.jpg" alt="Vibes — vista móvil" width="300"></p>
+
+</details>
+
 **Lo que demuestra este proyecto:** arquitectura de islas (HTML estático y React solo donde hay interacción), estado compartido con nanostores y persistido en el navegador, imágenes optimizadas a WebP en el build, animaciones al hacer scroll y pedidos por WhatsApp sin backend.
 
 ## ✨ Funcionalidades
